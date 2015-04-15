@@ -1,0 +1,71 @@
+[user]
+    name = fspillner
+    email = fabian.spillner@gmail.com
+
+[push]
+    default = current
+
+[core]
+    quotepath = false
+    excludesfile = /Users/fabian/.gitignore_global
+    pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
+
+[interactive]
+    singlekey = true
+
+[url "git://github.com/"]
+    insteadOf = gh:
+
+[url "git@github.com:"]
+    insteadOf = wgh:
+
+[color]
+    branch = auto
+    diff   = auto
+    status = auto
+
+[apply]
+    whitespace = nowarn
+
+[alias]
+    s  = status -s
+    a  = add
+    c  = commit -v
+    ca = commit -av
+    u  = reset HEAD
+
+    b  = branch
+    bn = checkout -b
+    co = checkout
+
+    d  = difftool
+    dc = difftool --cached
+    ds = diff --stat
+    m  = mergetool
+
+    l = log --oneline --graph
+    t = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+    review = "!f() { local SHA=${1:-HEAD}; local BRANCH=${2:-master}; if [ $SHA == $BRANCH ]; then SHA=HEAD; fi; git difftool -y -t Kaleidoscope $BRANCH...$SHA; }; f"
+
+[web]
+    browser = open
+
+[difftool "Kaleidoscope"]
+    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+
+[difftool]
+    prompt = false
+
+[diff]
+    tool = Kaleidoscope
+
+[mergetool "Kaleidoscope"]
+    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+    trustExitCode = true
+
+[mergetool]
+    prompt = false
+
+[merge]
+    tool = Kaleidoscope
