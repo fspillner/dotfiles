@@ -69,3 +69,5 @@
 
 [merge]
     tool = Kaleidoscope
+[credential]
+	helper = osxkeychain

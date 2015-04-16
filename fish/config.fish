@@ -33,11 +33,18 @@ function myip
   echo "My external IP:" ( curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+' )
 end
 
+function manview
+  man -t $argv | open -f -a /Applications/Preview.app
+end
+
+function take
+  mkdir -p $argv
+  cd $argv
+end
+
 
 # Add homebrew and node to the path
-if not contains /usr/local/bin $PATH
-  set -gx PATH /usr/local/bin /usr/local/sbin /usr/local/share/npm/bin ./node_modules/.bin /usr/local/opt/ruby/bin /usr/local/opt/go/bin ~/git/dotfiles/scripts ~/.composer/vendor/bin ./vendor/bin ./bin $HOME/bin $PATH
-end
+set -gx PATH /usr/local/bin /usr/local/php5/bin /usr/local/sbin /usr/local/share/npm/bin ./node_modules/.bin /usr/local/opt/ruby/bin /usr/local/opt/go/bin ~/git/dotfiles/scripts ~/.composer/vendor/bin ./vendor/bin ./bin $HOME/bin $PATH
 
 
 # ### Aliases
