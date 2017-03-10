@@ -6,25 +6,15 @@
 #     |gh-pages| ➔
 
 function fish_prompt
-  echo
-  # line 1: "|{Ruby version}| {hostname} in {current path}"
-  if test $RUBY_VERSION
-    set_color yellow
-    echo -n "|$RUBY_VERSION| "
-  end
-  set_color purple
-  echo -n ( hostname -s )
-  set_color white
-  echo -n " in "
-  set_color green
-  pwd
+  echo -n "   λ "
 
-  # line 2: "|{current git branch} ➔ "
+  echo -n (basename $PWD)
+
+  # line 2: "(){current git branch}): "
   if test -d .git
-    echo -n "|"( git branch | grep '* ' | cut -f2- -d " " )"| "
+    echo -n " ("( git branch | grep '* ' | cut -f2- -d " " )")"
   end
-  echo -n "➔ "
-  set_color normal
+  echo -n ": "
 end
 
 
@@ -42,15 +32,19 @@ function take
   cd $argv
 end
 
+function nmms
+  cd ~/Documents/gutefrage/nmms/nmms
+  tmux new-session -s nmms 'teamocil my'
+end
 
 # Add homebrew and node to the path
-set -gx PATH /usr/local/bin /usr/local/php5/bin /usr/local/sbin /usr/local/share/npm/bin ./node_modules/.bin /usr/local/opt/ruby/bin /usr/local/opt/go/bin ~/git/dotfiles/scripts ~/.composer/vendor/bin ./vendor/bin ./bin $HOME/bin $PATH
+set -gx PATH /usr/local/spark/bin /usr/local/php5/bin /usr/local/bin /usr/local/sbin ./node_modules/.bin /usr/local/opt/go/bin /Users/fabian/go/bin ~/Documents/git/dotfiles/scripts ./vendor/bin ./bin $HOME/bin /Applications/activator-1.3.2 /usr/local/scala-2.11.8/bin $PATH
 
 
 # ### Aliases
 alias be "bundle exec"
-alias gpull "git pull origin"
-alias gpush "git push origin"
+alias gpull "git pull --rebase"
+alias gpush "git push"
 
 alias serve "python -m SimpleHTTPServer"
 alias tmux "env TERM=xterm-256color tmux"
@@ -79,6 +73,9 @@ alias g "git s"
 
 alias pu "phpunit --colors"
 alias sf "app/console"
+alias y "yarn"
+
+alias brewi "brew install"
 
 
 # ### Environment variables
@@ -86,7 +83,23 @@ alias sf "app/console"
 # editors
 set -x EDITOR vim
 set -x GIT_EDITOR vim
+# set -x SHELL /bin/fish
+
+# term colors
+# set -x CLICOLOR 1
+# set -x LSCOLORS exfxcxdxbxegedabagacad
+# set -x LS_COLORS 'di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
+# set -x TERM 'screen-256color'
+#
+# # encoding
+# set -x LANG en_US.UTF-8
+# set -x LC_CTYPE en_US.UTF-8
+
+# teamocil
+complete -x -c teamocil -a '(teamocil --list)'
 
 # ### chruby-fish
 source /usr/local/share/chruby/chruby.fish
 source /usr/local/share/chruby/auto.fish
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish

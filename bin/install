@@ -1,0 +1,22 @@
+#!/bin/sh
+
+SCRIPTPATH=$0:A
+DOTFILESDIR="$( cd "$( dirname $SCRIPTPATH )/.." && pwd )"
+
+mkdir -p ~/.config
+
+ln -nfs $DOTFILESDIR/vim ~/.vim
+ln -nfs $DOTFILESDIR/vim ~/.config/nvim
+
+ln -nfs $DOTFILESDIR/rc/fish.config.fish ~/.config/fish/config.fish
+ln -nfs $DOTFILESDIR/rc/tmux.conf        ~/.tmux.conf
+ln -nfs $DOTFILESDIR/rc/npmrc            ~/.npmrc
+ln -nfs $DOTFILESDIR/rc/editorconfig     ~/.editorconfig
+ln -nfs $DOTFILESDIR/rc/gitconfig        ~/.gitconfig
+ln -nfs $DOTFILESDIR/rc/gitignore_global ~/.gitignore_global
+
+tic $DOTFILESDIR/rc/screen-256color.ti
+
+if [ -d /usr/local/php5 ]; then
+    sudo ln -nfs $DOTFILESDIR/rc/php/*.ini /usr/local/php5/php.d/
+fi

@@ -1,47 +1,85 @@
 """"""""""""""""""""""""""""""""""""""""
 "
-"  BUNDLES (PATHOGEN)
+"  PLUGINS
 "
-"    `:Helptags` to regenerate docs
-"
-call pathogen#infect()
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'icymind/neosolarized'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/BufOnly.vim'
+Plug 'kana/vim-smartinput'
+Plug 'austintaylor/vim-commaobject'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'neomake/neomake'
+Plug 'sbdchd/neoformat'
+Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
+Plug 'tmux-plugins/vim-tmux'
+Plug 'janko-m/vim-test'
+Plug 'derekwyatt/vim-scala'
+Plug 'leafgarland/typescript-vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'kballard/vim-fish'
+Plug 'antoyo/vim-licenses'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+Plug 'sheerun/vim-polyglot'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'slashmili/alchemist.vim', { 'for': 'elixir' }
+Plug 'elmcast/elm-vim', { 'for': 'elm' }
+
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+
+call plug#end()
 
 "
 """"""""""""""""""""""""""""""""""""""""
 "
 "  HIGHLIGHTING
 "
+
+" Solarized light,
+" set background=light
+" let g:neosolarized_bold = 1
+" let g:neosolarized_underline = 1
+" let g:neosolarized_italic = 1
+" colorscheme NeoSolarized
+
 syntax on
 colo mustango
 se cursorline
 se listchars=tab:▸\ ,trail:□,eol:¬
+se t_ZH=[3m
+se t_ZR=[23m
 
 "
 """"""""""""""""""""""""""""""""""""""""
 "
 "  ENVIRONMENT
 "
-se encoding=utf8
-se backspace=2
 se fileformat=unix
 se fileformats=unix
-se nocompatible
 se hidden
 se nobackup
 se noswapfile
 se dir=/tmp,/var/tmp
-se autoread
+se relativenumber
 se number
 se visualbell
 se ch=1
-se laststatus=2
 se noshowmode
 se mousehide
-se ttyfast
-se autoindent
 se copyindent
 se smartindent
-se smarttab
 se nolist
 se backspace=indent,eol,start
 se wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/*cache,*/logs,*/web/bundles,.DS_Store
@@ -52,16 +90,13 @@ se path=**
 "
 "  FOLDING
 "
-se foldmethod=syntax
-se foldlevel=1
+se foldmethod=marker
 
 "
 """"""""""""""""""""""""""""""""""""""""
 "
 "  SEARCH
 "
-se incsearch
-se hlsearch
 se showmatch
 se ignorecase
 se smartcase
@@ -79,23 +114,13 @@ se scrolloff=3
 "
 """"""""""""""""""""""""""""""""""""""""
 "
-"  TABS
-"
-se tabstop=4
-se shiftwidth=4
-se softtabstop=4
-se showtabline=1
-se expandtab
-
-"
-""""""""""""""""""""""""""""""""""""""""
-"
 "  AUTOCOMPLETION
 "
-"se wildcharm=<tab>
-"se wildmenu
-"se wildmode=full
-"inoremap <c-l> <c-x><c-l>
+se wildcharm=<tab>
+se wildmode=full
+inoremap <c-l> <c-x><c-l>
+let g:deoplete#enable_at_startup = 1
+let g:alchemist_tag_stack_map = '<C-Q>'
 
 "
 """"""""""""""""""""""""""""""""""""""""
@@ -106,7 +131,6 @@ se wrap
 se linebreak
 se textwidth=100
 se colorcolumn=100
-se formatoptions=qrn1
 "se formatprg=par
 "se formatoptions+=tca
 
@@ -201,6 +225,11 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 nnoremap <c-x> <c-w>x
+tnoremap <c-h> <c-\><c-n><c-w>h
+tnoremap <c-j> <c-\><c-n><c-w>j
+tnoremap <c-k> <c-\><c-n><c-w>k
+tnoremap <c-l> <c-\><c-n><c-w>l
+tnoremap <c-x> <c-\><c-n><c-w>x
 
 "
 """"""""""""""""""""""""""""""""""""""""
@@ -260,8 +289,8 @@ nnoremap * *N
 "
 "  AIRLINE
 "
-let g:airline_powerline_fonts=1
 let g:airline_theme='wombatish'
+let g:airline_powerline_fonts=0
 
 "
 """"""""""""""""""""""""""""""""""""""""
@@ -274,43 +303,14 @@ nnoremap <leader>gh  :Gbrowse!<cr>
 nnoremap <leader>gc  :Gcommit --verbose<cr>
 nnoremap <leader>grm :Gremove<cr>
 nnoremap <leader>gmv :Gmove<cr>
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 "
 """"""""""""""""""""""""""""""""""""""""
 "
-"  ACK
+"  FZF
 "
-nnoremap <expr><leader>a ":Ack! "
-
-"
-""""""""""""""""""""""""""""""""""""""""
-"
-"  UltiSnips
-"
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsListSnippets = '<c-tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-
-"
-""""""""""""""""""""""""""""""""""""""""
-"
-"  CTRLP
-"
-let g:ctrlp_map = '<c-t>'
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_max_height = 15
-let g:ctrlp_open_multi = '1v'
-let g:ctrlp_custom_ignore = '\v[\/](vendor|\.git|\.hg)$'
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-
-"
-""""""""""""""""""""""""""""""""""""""""
-"
-"  LUSTY
-"
-let g:LustyJugglerShowKeys = '1'
+nnoremap <c-t> :FZF<cr>
 
 "
 """"""""""""""""""""""""""""""""""""""""
@@ -336,11 +336,23 @@ let g:EasyMotion_leader_key='t'
 "
 """"""""""""""""""""""""""""""""""""""""
 "
-"  SYNTASTIC
+"  NEOMAKE
 "
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': [],
-                           \ 'passive_filetypes': ['html', 'twig', 'css', 'scss', 'php'] }
+function! NeomakeCredoErrorType(entry)
+    if a:entry.type ==# 'W'
+        let a:entry.type = 'W'
+    else
+        let a:entry.type = 'I'
+    endif
+endfunction
+let g:neomake_elixir_credo_maker = {
+    \ 'exe': 'mix',
+    \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
+    \ 'errorformat': '[%t] %. %f:%l:%c %m',
+    \ 'postprocess': function('NeomakeCredoErrorType')
+    \ }
+
+let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 
 "
 """"""""""""""""""""""""""""""""""""""""
@@ -354,21 +366,28 @@ nnoremap <leader>vc :VimuxCloseRunner<cr>
 "
 """"""""""""""""""""""""""""""""""""""""
 "
-"  PHP
+"  TESTS
 "
-let g:php_folding=1
-let php_noShortTags = 1
-
-nnoremap <leader>u :call PhpInsertUse()<cr>
-nnoremap <leader>e :call PhpExpandClass()<cr>
+nmap <silent> <leader>tt :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
 
 "
 """"""""""""""""""""""""""""""""""""""""
 "
-"  BEHAT
+"  Polyglot
 "
-let feature_filetype='behat'
+let g:polyglot_disabled = ['elm']
 
+"
+""""""""""""""""""""""""""""""""""""""""
+"
+"  ELM
+"
+let g:elm_format_autosave = 0
+let g:elm_setup_keybindings = 0
 
 "
 "+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -376,24 +395,6 @@ let feature_filetype='behat'
 "|  > CUSTOM FUNCTIONS
 "|
 "|
-""""""""""""""""""""""""""""""""""""""""
-"
-"  STRIP TRAILING SPACES
-"
-nnoremap <silent> <leader>c :call <sid>StripTrailingWhitespaces()<cr>
-function! <sid>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-"
 """"""""""""""""""""""""""""""""""""""""
 "
 "  RENAME CURRENT BUFFER FILE
@@ -430,51 +431,33 @@ filetype on
 filetype plugin on
 filetype indent on
 
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
+augroup vimrc_autocmd
+    if ! has('gui_running')
+        set ttimeoutlen=10
         au InsertEnter * set timeoutlen=500
         au InsertLeave * set timeoutlen=1000
-    augroup END
-endif
+    endif
 
-if has('autocmd')
-    augroup GeneralConfig
-        autocmd!
-        au FocusLost silent! :wa
-        au FileType helpfile setlocal nonumber
-    augroup END
+    autocmd!
 
-    augroup FileTypes
-        autocmd!
-        au BufRead,BufNewFile *.php         setlocal filetype=php iskeyword-=$
-        au BufRead,BufNewFile *.php         inoremap <buffer> § $
-        au BufRead,BufNewFile *.php         inoremap <buffer> ± ->
-        au BufRead,BufNewFile *.php         inoremap <buffer> §§ $this->
-        au BufRead,BufNewFile *.twig        setlocal filetype=jinja
-        au BufRead,BufNewFile *.html.twig   setlocal filetype=htmljinja
-        au BufRead,BufNewFile *.js.twig     setlocal filetype=javascript
-        au BufRead,BufNewFile *.ejs         setlocal filetype=html
-        au BufRead,BufNewFile *.json        setlocal filetype=javascript
-        au BufRead,BufNewFile *.pp          setlocal filetype=ruby
-    augroup END
+    " General
+    au FocusLost silent! :wa
+    au FileType helpfile setlocal nonumber
 
-    augroup TabsConfig
-        autocmd!
-        au BufRead,BufNewFile *.feature     setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.css         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.scss        setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.less        setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.ruby        setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.js          setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.coffee      setlocal tabstop=2 shiftwidth=2 softtabstop=2
-        au BufRead,BufNewFile *.jade        setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    augroup END
+    " File types
+    au BufRead,BufNewFile *.php         setlocal filetype=php iskeyword-=$
+    au BufRead,BufNewFile *.php         inoremap <buffer> § $
+    au BufRead,BufNewFile *.php         inoremap <buffer> ± ->
+    au BufRead,BufNewFile *.php         inoremap <buffer> §§ $this->
+    au BufRead,BufNewFile *.twig        setlocal filetype=jinja
+    au BufRead,BufNewFile *.html.twig   setlocal filetype=htmljinja
+    au BufRead,BufNewFile *.js.twig     setlocal filetype=javascript
+    au BufRead,BufNewFile *.ejs         setlocal filetype=html
+    au BufRead,BufNewFile *.json        setlocal filetype=javascript
+    au BufRead,BufNewFile *.pp          setlocal filetype=ruby
 
-    augroup Commands
-        autocmd!
-        au BufWrite *.php,*.js,*.feature,*.json :call <sid>StripTrailingWhitespaces()
-        au BufWrite * :call <sid>MkdirsIfNotExists(expand('<afile>:h'))
-    augroup END
-endif
+    " Autocalls
+    au BufWrite * :call <sid>MkdirsIfNotExists(expand('<afile>:h'))
+    au BufWritePost,BufEnter * Neomake
+    au BufWritePost *.elm ElmFormat
+augroup END

@@ -3,7 +3,7 @@ windows:
     - name: editor
       root: ${path}
       panes:
-          - vim
+          - nvim
     - name: shell
       root: ${path}
       layout: 3f63,211x65,0,0{140x65,0,0,1,70x65,141,0,2}

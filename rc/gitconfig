@@ -59,6 +59,7 @@
 
 [diff]
     tool = Kaleidoscope
+    dsf = "!git diff --color $@ | diff-so-fancy"
 
 [mergetool "Kaleidoscope"]
     cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
